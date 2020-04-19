@@ -4,7 +4,6 @@ import serenitylabs.tutorials.vetclinic.Breed;
 import serenitylabs.tutorials.vetclinic.Meal;
 import serenitylabs.tutorials.vetclinic.Pet;
 import serenitylabs.tutorials.vetclinic.collections.katas.PetFood;
-import sun.jvm.hotspot.types.CIntegerField;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,11 +25,11 @@ public class FoodDispenser {
         return new Meal(righAmountofFood(pet),righFood(pet));
     }
 
-    private PetFood righFood(Pet pet) {
+    public static PetFood righFood(Pet pet) {
         return BRAND_FOR_BREED.get(pet.getBreed());
     }
 
-    public double righAmountofFood(Pet pet) {
+    public static double righAmountofFood(Pet pet) {
         return pet.getWeightInKilos() * GRAMS_PER_KYLO_BY_PET.get(pet.getBreed());
     }
 }

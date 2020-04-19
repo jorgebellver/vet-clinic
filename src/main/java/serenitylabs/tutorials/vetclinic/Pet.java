@@ -35,38 +35,16 @@ public class Pet {
     public static PetBuilder dog() { return new PetBuilder(Breed.Dog);}
     public static PetBuilder cat() { return new PetBuilder(Breed.Cat);}
 
-    public FoodDispenser foodDispenser;
-
     public boolean isWellFed() {
         double totalEaten = 0.0;
 
-        for(Meal meal : mealsGiven) {
-            totalEaten = getTotalEaten(totalEaten, meal);
-        }
-        double amountNeeded = 0.0;
-        amountNeeded = foodDispenser.righAmountofFood();;
-
-        return (totalEaten >= amountNeeded);
-    }
-
-    private double getAmountNeeded(double amountNeeded) {
+        totalEaten = mealsGiven.stream()
+                        .filter(meal -> meal.getFoodBrand() == FoodDispenser.righFood(this))
+                        .mapToDouble(meal -> meal.getAmountInGrams())
+                        .sum();
 
 
-        if (breed == Breed.Cat) {
-            amountNeeded = getWeightInKilos() * 10;
-        } else if (breed == Breed.Dog) {
-            amountNeeded = getWeightInKilos() * 20;
-        }
-        return amountNeeded;
-    }
-
-    private double getTotalEaten(double totalEaten, Meal meal) {
-        if ((breed == Breed.Cat) && (meal.getFoodBrand() == PetFood.KittyKat)) {
-            totalEaten = totalEaten + meal.getAmountInGrams();
-        } else if ((breed == Breed.Dog) && (meal.getFoodBrand() == PetFood.FidosFood)) {
-            totalEaten = totalEaten + meal.getAmountInGrams();
-        }
-        return totalEaten;
+        return (totalEaten >= FoodDispenser.righAmountofFood(this));
     }
 
     public void eat(Meal meal) {
